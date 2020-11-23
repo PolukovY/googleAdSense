@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WebSite!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">
+                Simple Website
+            </h1>
+            <p class="subtitle">
+                Some content!
+            </p>
+        </div>
+    </section>
+    <div class="columns is-desktop has-background-info">
+        <div id="advert" class="column">
+            <a v-bind:href="url">{{title}}</a>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+
+    Vue.config.devtools = true
+    new Vue({
+        el: '#advert',
+        data: {
+            title: '-',
+            url: '-',
+            identity: '222'
+        },
+        mounted:function(){
+            this.pageLoad()
+        },
+        methods:{
+            pageLoad:function(){
+                let myApp = this;
+                axios.get("/advert/" + myApp.identity)
+                    .then(function (response) {
+                        myApp.title = response.data.title
+                        myApp.url = response.data.url
+                    })
+                    .catch(function (res) {
+                        console.log(res)
+                    });
+
+            }
+            }
+        });
+</script>
+</html>
